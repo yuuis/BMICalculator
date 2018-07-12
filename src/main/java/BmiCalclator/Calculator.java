@@ -1,10 +1,10 @@
-package BmiCalculator;
+package BmiCalclator;
 
 class Calculator {
     double bmi;
     double justweight;
 
-    double calculate(BmiCalculator.Human human) {
+    double calculate(Human human) {
         bmi = human.getWeight() / Math.pow((human.getHeight() / 100), 2);
         return bmi;
     }

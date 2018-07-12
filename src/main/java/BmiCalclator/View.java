@@ -1,10 +1,12 @@
-package BmiCalculator;
+package BmiCalclator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
-public class View {
+public class View implements ActionListener {
     int width;
     int hight;
     JPanel panel;
@@ -23,23 +25,36 @@ public class View {
         panel = new JPanel();
         label = new JLabel();
 
-        height = new JTextField("身長", 20);
-        weight = new JTextField("体重");
+        height = new JTextField("身長を入力してください", 15);
+        weight = new JTextField("体重を入力してください", 15);
         JButton button = new JButton("計算する");
-//        button.addActionListener(this);
+        button.addActionListener(this);
 
         panel.add(height);
         panel.add(weight);
         panel.add(button);
-
-        panel.setLayout(null);
 
         Container contentPane = frame.getContentPane();
         contentPane.add(panel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
 
+    public void graf() {
+        DataAccessor da = new DataAccessor();
+        List<String[]> data = da.read();
+
+        for (String[] line : data){
+            for (String d : line) {
+                System.out.println(d);
+            }
+        }
+    }
+
     public void actionPerformed(ActionEvent e){
-        label.setText(height.getText() + weight.getText());
+        Human human = new Human("guest", Double.parseDouble(height.getText()), Double.parseDouble(weight.getText()));
+        double bmi = human.sayBMI();
+        DataAccessor da = new DataAccessor();
+        da.wright(height.getText(), weight.getText(), bmi);
+        graf();
     }
 }
